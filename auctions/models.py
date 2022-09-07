@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -31,3 +32,4 @@ class Listing(models.Model):
         Comment, on_delete=models.CASCADE, related_name='comments')
     creator = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='creator')
+    category = models.TextField()

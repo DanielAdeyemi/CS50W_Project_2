@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -67,13 +68,22 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
-def listing(request, listing_id):
+def listing(request, listing_id=None):
     listing = Listing.objects.get(pk=listing_id)
     return render(request, auctions/listing.html, {
         "listing": listing
     })
 
 
-def create(request, listing_id):
+def create(request):
     if request.method == 'POST':
+        # title = request.POST['title']
+        # description = request.POST['description']
+        # current_bid = request.POST['starting_bid']
+        # picture = request.POST['img_url']
+        # category = request.POST['category']
+        # listing
+        # return HttpResponseRedirect(reverse('listing', args=(listing.id)))
         pass
+    else:
+        return render(request, "auctions/create.html")
