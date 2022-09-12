@@ -7,7 +7,7 @@ from django.urls import reverse
 
 import auctions
 
-from .models import Listing, User
+from .models import Listing, User, Comment, Bid
 
 
 def index(request):
@@ -77,13 +77,18 @@ def listing(request, listing_id=None):
 
 def create(request):
     if request.method == 'POST':
-        # title = request.POST['title']
-        # description = request.POST['description']
-        # current_bid = request.POST['starting_bid']
-        # picture = request.POST['img_url']
-        # category = request.POST['category']
-        # listing
-        # return HttpResponseRedirect(reverse('listing', args=(listing.id)))
+        title = request.POST['title']
+        description = request.POST['description']
+        current_bid = request.POST['starting_bid']
+        picture = request.POST['img_url']
+        category = request.POST['category']
+        bid = Bid.objects.create(initial_bid=current_bid)
+        comments = Comment.objects.create(comment="")
+        creator = User.objects.get(pk=1)
+        listing = Listing.objects.create(
+            title=title, description=description, current_bid=bid, picture=picture, category=category, comments=comments, creator=creator)
+        listing.save()
+        return HttpResponseRedirect(reverse('index'))
         pass
     else:
         return render(request, "auctions/create.html")
